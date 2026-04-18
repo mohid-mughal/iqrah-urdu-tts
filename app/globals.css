@@ -3,21 +3,56 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --background: #f8faf9;
   --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --pakistan-green: #01411C;
+  --pakistan-light-green: #0A6638;
+  --pakistan-white: #FFFFFF;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  position: relative;
+}
+
+/* Subtle Islamic geometric pattern background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.03;
+  background-image: 
+    repeating-linear-gradient(45deg, transparent, transparent 35px, var(--pakistan-green) 35px, var(--pakistan-green) 36px),
+    repeating-linear-gradient(-45deg, transparent, transparent 35px, var(--pakistan-green) 35px, var(--pakistan-green) 36px);
+  background-size: 50px 50px;
+}
+
+/* Additional decorative pattern overlay */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.015;
+  background-image: radial-gradient(circle at 25px 25px, var(--pakistan-light-green) 2%, transparent 0%),
+                    radial-gradient(circle at 75px 75px, var(--pakistan-light-green) 2%, transparent 0%);
+  background-size: 100px 100px;
+}
+
+/* Urdu text styling */
+.urdu-text {
+  font-family: var(--font-noto-nastaliq), serif;
+  direction: rtl;
+  text-align: right;
 }
 
 @layer utilities {

@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Iqrah - Urdu TTS
+
+A web-based text-to-speech application for Urdu language with voice cloning capabilities.
+
+## Features
+
+- Two fine-tuned SpeechT5 models (Standard and Phoneme-based)
+- Voice cloning with reference audio upload or microphone recording
+- Roman Urdu to Urdu script transliteration
+- Pakistan-inspired design with cultural elements
+- Responsive design for mobile and desktop
+- Analytics tracking with Vercel Analytics
+
+## Tech Stack
+
+- **Next.js 16** with App Router
+- **React 19** with new concurrent features
+- **TypeScript** for type safety
+- **Tailwind CSS** for styling with Pakistan-themed design tokens
+- **Vercel Analytics v2** for usage tracking
+- **fast-check** for property-based testing
+- **Jest** + **React Testing Library** for unit testing
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ and npm
+
+### Installation
+
+```bash
+npm install
+```
+
+### Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+### Run Tests
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm test
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Lint Code
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run lint
+```
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+iqrah-urdu-tts/
+├── app/              # Next.js App Router pages
+├── components/       # React components
+├── services/         # Service classes (TTS, Recording, Analytics)
+├── utils/            # Utility functions
+└── __tests__/        # Test files
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Models
+
+### Standard Model
+- Trained on 17,000 samples
+- No phoneme processing
+- Endpoint: `https://ahmedjaved812-urdu-tts-backend.hf.space/synthesize`
+
+### Phoneme Model (Experimental)
+- Trained on 120,000 samples
+- Word-based phonemization (experimental)
+- Endpoint: `https://ahmedjaved812-urdu-tts-phonemes-backend.hf.space/synthesize`
+
+## Deployment
+
+This project is configured for automatic deployment to Vercel via GitHub integration.
+
+### Deploy to Vercel
+
+1. Push your code to GitHub
+2. Import the repository in Vercel
+3. Vercel will automatically detect Next.js and configure the build
+4. Your app will be deployed at `https://your-project.vercel.app`
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Credits
+
+- Backend APIs hosted on Hugging Face Spaces
+- Developed by Mohid Mughal and Ahmed Javed
+- NUST (National University of Sciences and Technology)
+
+## License
+
+MIT

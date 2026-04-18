@@ -11,6 +11,22 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        pakistan: {
+          green: "#01411C",
+          lightGreen: "#0A6638",
+          white: "#FFFFFF",
+          cream: "#f8faf9",
+        },
+      },
+      fontFamily: {
+        urdu: ["var(--font-noto-nastaliq)"],
+        sans: ["var(--font-inter)"],
+      },
+      screens: {
+        'xs': '475px',
+      },
+      scale: {
+        '98': '0.98',
       },
     },
   },
