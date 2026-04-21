@@ -64,8 +64,13 @@ export default function AudioPlayer({ audioBlob, autoPlay = true }: AudioPlayerP
 
   // Update current time as audio plays
   const handleTimeUpdate = () => {
-    if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
+    if (audioRef.current && !isNaN(audioRef.current.currentTime)) {
+      // Use requestAnimationFrame for smoother updates
+      requestAnimationFrame(() => {
+        if (audioRef.current) {
+          setCurrentTime(audioRef.current.currentTime);
+        }
+      });
     }
   };
 

@@ -8,16 +8,18 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-white via-gray-50 to-green-50">
-      {/* Islamic geometric pattern overlay */}
-      <div className="fixed inset-0 opacity-5 pointer-events-none" aria-hidden="true">
+      {/* Minimalistic Islamic geometric pattern overlay */}
+      <div className="fixed inset-0 opacity-[0.03] pointer-events-none" aria-hidden="true">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <pattern id="islamic-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-              <path
-                d="M50 0 L60 30 L90 30 L65 50 L75 80 L50 60 L25 80 L35 50 L10 30 L40 30 Z"
-                fill="currentColor"
-                className="text-pakistan-green"
-              />
+            <pattern id="islamic-pattern" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+              {/* Simple octagon pattern */}
+              <circle cx="60" cy="60" r="25" fill="none" stroke="currentColor" strokeWidth="1" className="text-pakistan-green" />
+              <circle cx="60" cy="60" r="15" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-pakistan-green" />
+              <line x1="60" y1="35" x2="60" y2="85" stroke="currentColor" strokeWidth="0.5" className="text-pakistan-green" />
+              <line x1="35" y1="60" x2="85" y2="60" stroke="currentColor" strokeWidth="0.5" className="text-pakistan-green" />
+              <line x1="42" y1="42" x2="78" y2="78" stroke="currentColor" strokeWidth="0.5" className="text-pakistan-green" />
+              <line x1="78" y1="42" x2="42" y2="78" stroke="currentColor" strokeWidth="0.5" className="text-pakistan-green" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#islamic-pattern)" />

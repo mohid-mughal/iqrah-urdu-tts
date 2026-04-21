@@ -18,6 +18,10 @@ export default function AudioControls({
   onRemoveAudio,
   disabled = false,
 }: AudioControlsProps) {
+  // AUDIO CLONING FEATURE - COMMENTED OUT FOR NOW
+  // Keeping the code for future use when voice cloning is needed
+  
+  /*
   const [isRecording, setIsRecording] = useState(false);
   const [recordingError, setRecordingError] = useState<string | null>(null);
   const [audioDuration, setAudioDuration] = useState<number | null>(null);
@@ -147,11 +151,13 @@ export default function AudioControls({
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
+  */
 
   return (
     <div className="w-full space-y-4">
+      {/* AUDIO CLONING UI - COMMENTED OUT */}
+      {/*
       <div className="flex flex-col sm:flex-row gap-3">
-        {/* File Upload Button */}
         <button
           onClick={handleUploadClick}
           disabled={disabled || isRecording}
@@ -197,7 +203,6 @@ export default function AudioControls({
           id="audio-file-input"
         />
 
-        {/* Microphone Recording Button */}
         <button
           onClick={handleRecordClick}
           disabled={disabled}
@@ -251,14 +256,12 @@ export default function AudioControls({
         </button>
       </div>
 
-      {/* Recording Error Display */}
       {recordingError && (
         <div className="p-3 bg-red-50 border border-red-200 rounded-lg" role="alert" aria-live="polite">
           <p className="text-xs sm:text-sm text-red-700 break-words">{recordingError}</p>
         </div>
       )}
 
-      {/* Reference Audio Display */}
       {referenceAudio && (
         <div className="p-3 sm:p-4 bg-gray-50 border border-gray-200 rounded-lg" role="status" aria-live="polite">
           <div className="flex items-center justify-between gap-2">
@@ -321,10 +324,17 @@ export default function AudioControls({
         </div>
       )}
 
-      {/* Help Text */}
       <div className="text-xs sm:text-sm text-gray-600" id="audio-controls-help">
         <p>
           Upload an audio file (WAV format recommended) or record your voice for voice cloning. Audio will be automatically converted to WAV format if needed. The synthesized speech will mimic the reference voice.
+        </p>
+      </div>
+      */}
+      
+      {/* Placeholder message */}
+      <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg text-center">
+        <p className="text-sm text-gray-600">
+          Voice cloning feature is currently disabled. Using default voice for synthesis.
         </p>
       </div>
     </div>

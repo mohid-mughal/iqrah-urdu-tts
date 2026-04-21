@@ -1,13 +1,15 @@
 import { MODELS } from '@/config/models';
+import { ModelType } from '@/types';
 
 interface ModelTabsProps {
-  selectedModel: 'standard' | 'phoneme';
-  onModelChange: (model: 'standard' | 'phoneme') => void;
+  selectedModel: ModelType;
+  onModelChange: (model: ModelType) => void;
 }
 
 export default function ModelTabs({ selectedModel, onModelChange }: ModelTabsProps) {
   const standardModel = MODELS.standard;
   const phonemeModel = MODELS.phoneme;
+  const characterPhonemeModel = MODELS.characterPhoneme;
 
   return (
     <div className="w-full">
@@ -15,7 +17,7 @@ export default function ModelTabs({ selectedModel, onModelChange }: ModelTabsPro
       <div className="flex border-b-2 border-gray-200" role="tablist" aria-label="TTS Model Selection">
         <button
           onClick={() => onModelChange('standard')}
-          className={`flex-1 px-3 sm:px-4 md:px-6 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pakistan-green focus:ring-offset-2 ${
+          className={`flex-1 px-2 sm:px-4 md:px-6 py-3 sm:py-4 text-xs sm:text-base md:text-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pakistan-green focus:ring-offset-2 ${
             selectedModel === 'standard'
               ? 'text-pakistan-green border-b-4 border-pakistan-green -mb-0.5 bg-green-50'
               : 'text-gray-600 hover:text-pakistan-lightGreen hover:bg-gray-50'
@@ -31,7 +33,7 @@ export default function ModelTabs({ selectedModel, onModelChange }: ModelTabsPro
         </button>
         <button
           onClick={() => onModelChange('phoneme')}
-          className={`flex-1 px-3 sm:px-4 md:px-6 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pakistan-green focus:ring-offset-2 ${
+          className={`flex-1 px-2 sm:px-4 md:px-6 py-3 sm:py-4 text-xs sm:text-base md:text-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pakistan-green focus:ring-offset-2 ${
             selectedModel === 'phoneme'
               ? 'text-pakistan-green border-b-4 border-pakistan-green -mb-0.5 bg-green-50'
               : 'text-gray-600 hover:text-pakistan-lightGreen hover:bg-gray-50'
@@ -44,6 +46,22 @@ export default function ModelTabs({ selectedModel, onModelChange }: ModelTabsPro
         >
           <span className="hidden sm:inline">{phonemeModel.name}</span>
           <span className="sm:hidden">Phoneme</span>
+        </button>
+        <button
+          onClick={() => onModelChange('characterPhoneme')}
+          className={`flex-1 px-2 sm:px-4 md:px-6 py-3 sm:py-4 text-xs sm:text-base md:text-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pakistan-green focus:ring-offset-2 ${
+            selectedModel === 'characterPhoneme'
+              ? 'text-pakistan-green border-b-4 border-pakistan-green -mb-0.5 bg-green-50'
+              : 'text-gray-600 hover:text-pakistan-lightGreen hover:bg-gray-50'
+          }`}
+          aria-selected={selectedModel === 'characterPhoneme'}
+          aria-controls="character-phoneme-panel"
+          role="tab"
+          id="character-phoneme-tab"
+          tabIndex={selectedModel === 'characterPhoneme' ? 0 : -1}
+        >
+          <span className="hidden md:inline">{characterPhonemeModel.name}</span>
+          <span className="md:hidden">Char-Phoneme</span>
         </button>
       </div>
 
@@ -63,8 +81,8 @@ export default function ModelTabs({ selectedModel, onModelChange }: ModelTabsPro
               {standardModel.description}
             </p>
             <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
-              <span className="font-medium">Training Data:</span>
-              <span>{standardModel.trainingInfo.samples.toLocaleString()} samples</span>
+              <span className="font-medium">Training Corpus:</span>
+              <span>{standardModel.trainingInfo.corpus}</span>
             </div>
           </div>
         )}
@@ -83,8 +101,8 @@ export default function ModelTabs({ selectedModel, onModelChange }: ModelTabsPro
               {phonemeModel.description}
             </p>
             <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
-              <span className="font-medium">Training Data:</span>
-              <span>{phonemeModel.trainingInfo.samples.toLocaleString()} samples</span>
+              <span className="font-medium">Training Corpus:</span>
+              <span>{phonemeModel.trainingInfo.corpus}</span>
             </div>
             
             {/* Educational message about limitation */}
@@ -118,6 +136,60 @@ export default function ModelTabs({ selectedModel, onModelChange }: ModelTabsPro
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {selectedModel === 'characterPhoneme' && (
+          <div 
+            role="tabpanel" 
+            id="character-phoneme-panel"
+            aria-labelledby="character-phoneme-tab"
+            className="space-y-2 sm:space-y-3"
+          >
+            <h3 className="text-lg sm:text-xl font-semibold text-pakistan-green">
+              {characterPhonemeModel.name}
+            </h3>
+            <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+              {characterPhonemeModel.description}
+            </p>
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
+              <span className="font-medium">Training Corpus:</span>
+              <span>{characterPhonemeModel.trainingInfo.corpus}</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
+              <span className="font-medium">Phonemization:</span>
+              <span className="capitalize">{characterPhonemeModel.trainingInfo.phonemeType}</span>
+            </div>
+            
+            {/* Success message */}
+            <div 
+              className="mt-3 sm:mt-4 p-3 sm:p-4 bg-green-50 border-l-4 border-green-400 rounded-r"
+              role="note"
+              aria-label="Model improvement note"
+            >
+              <div className="flex items-start gap-2 sm:gap-3">
+                <svg 
+                  className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" 
+                  fill="currentColor" 
+                  viewBox="0 0 20 20"
+                  aria-hidden="true"
+                >
+                  <path 
+                    fillRule="evenodd" 
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" 
+                    clipRule="evenodd" 
+                  />
+                </svg>
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-xs sm:text-sm font-semibold text-green-800 mb-1">
+                    Improved Accuracy
+                  </h4>
+                  <p className="text-xs sm:text-sm text-green-900 leading-relaxed">
+                    This model uses character-based phonemization for more accurate Urdu speech synthesis, addressing the limitations found in the word-based approach.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>

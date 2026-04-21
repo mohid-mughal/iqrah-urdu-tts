@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { ttsService } from '@/services/tts.service';
 
 interface SynthesizeButtonProps {
@@ -23,10 +23,24 @@ export default function SynthesizeButton({
   disabled = false,
 }: SynthesizeButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Memoize the disabled state to ensure consistency between server and client
+  const isButtonDisabled = useMemo(() => {
+    if (!isMounted) {
+      // On server/initial render, always return true to match client's initial state
+      return true;
+    }
+    return disabled || isLoading || text.trim().length === 0;
+  }, [disabled, isLoading, text, isMounted]);
 
   const handleSynthesize = async () => {
     // Don't proceed if button is disabled or already loading
-    if (disabled || isLoading || !text.trim()) {
+    if (isButtonDisabled) {
       return;
     }
 
@@ -52,9 +66,6 @@ export default function SynthesizeButton({
       setIsLoading(false);
     }
   };
-
-  // Button is disabled if: explicitly disabled, loading, or text is empty
-  const isButtonDisabled = disabled || isLoading || !text.trim();
 
   return (
     <button

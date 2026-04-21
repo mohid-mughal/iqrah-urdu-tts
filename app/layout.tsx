@@ -3,6 +3,7 @@ import { Inter, Noto_Nastaliq_Urdu } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import Layout from "@/components/Layout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,7 +30,9 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${notoNastaliq.variable}`}>
       <body className={inter.className}>
         <ErrorBoundary>
-          {children}
+          <Layout>
+            {children}
+          </Layout>
         </ErrorBoundary>
         <Analytics />
       </body>

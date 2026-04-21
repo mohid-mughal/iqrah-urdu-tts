@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { AppState } from '@/types';
+import { AppState, ModelType } from '@/types';
 import { MODELS } from '@/config/models';
 import { SAMPLE_SENTENCES } from '@/config/samples';
 import { analyticsService } from '@/services/analytics.service';
 import ModelTabs from '@/components/ModelTabs';
-import TextInput from '@/components/TextInput';
+import TextInputWithTranslation from '@/components/TextInputWithTranslation';
 import SampleSentences from '@/components/SampleSentences';
 import AudioControls from '@/components/AudioControls';
 import SynthesizeButton from '@/components/SynthesizeButton';
@@ -23,10 +23,11 @@ export default function HomePage() {
     isLoading: false,
     error: null,
     isRecording: false,
+    translationMode: 'ai', // Default to AI-based translation
   });
 
   // Handle model tab change
-  const handleModelChange = (model: 'standard' | 'phoneme') => {
+  const handleModelChange = (model: ModelType) => {
     setAppState((prev) => ({
       ...prev,
       selectedModel: model,
@@ -45,6 +46,15 @@ export default function HomePage() {
     }));
   };
 
+  // Handle translation mode change
+  const handleTranslationModeChange = (mode: 'ai' | 'character') => {
+    setAppState((prev) => ({
+      ...prev,
+      translationMode: mode,
+      error: null,
+    }));
+  };
+
   // Handle sample sentence selection
   const handleSampleSelect = (sentence: string) => {
     setAppState((prev) => ({
@@ -54,37 +64,22 @@ export default function HomePage() {
     }));
   };
 
-  // Handle file upload for reference audio
+  // Handle file upload for reference audio (commented out but keeping handlers)
   const handleFileUpload = (file: File) => {
-    setAppState((prev) => ({
-      ...prev,
-      referenceAudio: file,
-      error: null,
-    }));
-    
-    // Track voice cloning usage
-    analyticsService.trackVoiceCloning('upload');
+    // Voice cloning disabled
+    console.log('Voice cloning is currently disabled');
   };
 
-  // Handle recording completion
+  // Handle recording completion (commented out but keeping handlers)
   const handleRecordingComplete = (audioBlob: Blob) => {
-    setAppState((prev) => ({
-      ...prev,
-      referenceAudio: audioBlob,
-      isRecording: false,
-      error: null,
-    }));
-    
-    // Track voice cloning usage
-    analyticsService.trackVoiceCloning('recording');
+    // Voice cloning disabled
+    console.log('Voice cloning is currently disabled');
   };
 
-  // Handle remove reference audio
+  // Handle remove reference audio (commented out but keeping handlers)
   const handleRemoveAudio = () => {
-    setAppState((prev) => ({
-      ...prev,
-      referenceAudio: null,
-    }));
+    // Voice cloning disabled
+    console.log('Voice cloning is currently disabled');
   };
 
   // Handle synthesis start
@@ -109,7 +104,7 @@ export default function HomePage() {
     // Track synthesis in analytics
     analyticsService.trackSynthesis(
       appState.selectedModel,
-      appState.referenceAudio !== null
+      false // Voice cloning disabled
     );
   };
 
@@ -137,14 +132,16 @@ export default function HomePage() {
           />
         </section>
 
-        {/* Text Input Section */}
+        {/* Text Input Section with Translation */}
         <section aria-labelledby="text-input-heading">
           <h2 id="text-input-heading" className="text-lg sm:text-xl font-semibold text-pakistan-green mb-3 sm:mb-4">
             Enter Text
           </h2>
-          <TextInput
+          <TextInputWithTranslation
             value={appState.inputText}
             onChange={handleTextChange}
+            translationMode={appState.translationMode}
+            onTranslationModeChange={handleTranslationModeChange}
             disabled={appState.isLoading}
           />
         </section>
@@ -157,7 +154,8 @@ export default function HomePage() {
           />
         </section>
 
-        {/* Voice Cloning Section */}
+        {/* Voice Cloning Section - COMMENTED OUT */}
+        {/*
         <section aria-labelledby="voice-cloning-heading">
           <h2 id="voice-cloning-heading" className="text-lg sm:text-xl font-semibold text-pakistan-green mb-3 sm:mb-4">
             Voice Cloning (Optional)
@@ -170,13 +168,14 @@ export default function HomePage() {
             disabled={appState.isLoading}
           />
         </section>
+        */}
 
         {/* Synthesize Button */}
         <section aria-labelledby="synthesize-heading">
           <h2 id="synthesize-heading" className="sr-only">Synthesize Speech</h2>
           <SynthesizeButton
             text={appState.inputText}
-            referenceAudio={appState.referenceAudio}
+            referenceAudio={null} // Voice cloning disabled
             modelEndpoint={currentModelEndpoint}
             onSynthesisStart={handleSynthesisStart}
             onSynthesisComplete={handleSynthesisComplete}
