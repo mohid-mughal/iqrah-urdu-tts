@@ -70,11 +70,16 @@ Users now see a simple message: "Voice cloning feature is currently disabled. Us
 
 ### Environment Variables
 ```env
-NEXT_PUBLIC_GROQ_API_KEY=your_groq_api_key_here
+# Server-side only - NOT exposed to browser
+GROQ_API_KEY=your_groq_api_key_here
+
+# Client-side - safe to expose
 NEXT_PUBLIC_RATE_LIMIT_PER_MINUTE=5
 NEXT_PUBLIC_RATE_LIMIT_PER_HOUR=24
 NEXT_PUBLIC_RATE_LIMIT_PER_DAY=60
 ```
+
+**IMPORTANT**: The `GROQ_API_KEY` does NOT have the `NEXT_PUBLIC_` prefix, which means it stays on the server and is never exposed to the browser. This is secure.
 
 ### User Flow
 1. User types Roman Urdu text (e.g., "mujhe khana pasand hai")
