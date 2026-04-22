@@ -64,12 +64,19 @@ body::after {
 /* Fix for placeholder text direction in RTL textareas */
 textarea::placeholder,
 input::placeholder {
-  direction: ltr;
-  text-align: left;
-  unicode-bidi: embed;
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: isolate !important;
 }
 
 /* Ensure Urdu text renders properly */
 .urdu-text {
   unicode-bidi: plaintext;
+}
+
+/* Additional specificity for textarea placeholders */
+textarea[dir="rtl"]::placeholder {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: isolate !important;
 }

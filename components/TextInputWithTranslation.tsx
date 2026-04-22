@@ -266,7 +266,6 @@ export default function TextInputWithTranslation({
             resize-y
             urdu-text
             touch-manipulation
-            placeholder:text-left placeholder:direction-ltr
           `}
           dir={getTextDirection}
           lang={getTextDirection === 'rtl' ? 'ur' : 'en'}
