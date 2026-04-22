@@ -14,9 +14,9 @@ We've got two models here, both trained with love, chai, and probably too many l
 
 ## Features That Actually Matter
 
-**Text Input**: Type in Urdu script or Roman Urdu. The app is smart enough to handle both. If you type "mera naam mohid hai", it'll convert it to proper Urdu script automatically. Magic? No, just good engineering.
+**AI Translation**: Type in Roman Urdu and let the AI convert it to proper Urdu script. Uses Groq AI with content moderation to keep things family friendly. Rate limited so nobody can abuse it (we learned this the hard way).
 
-**Voice Cloning**: Upload an audio file or record your voice, and the system will try to mimic it. Perfect for when you want to hear your own voice reading Urdu poetry but don't want to actually read it out loud.
+**Text Input**: Type in Urdu script directly if you prefer. The app handles both Roman and Urdu script like a pro.
 
 **Sample Sentences**: Too lazy to type? We've got you covered with pre-written sentences. Just click and synthesize. Includes the mandatory NUST student introductions because we're proud of our university.
 
@@ -25,6 +25,8 @@ We've got two models here, both trained with love, chai, and probably too many l
 **Pakistan-Inspired Design**: Green and white color scheme with Islamic geometric patterns, because why not make it look good while it works well? We're representing the green passport properly.
 
 **Mobile Friendly**: Works on your phone, tablet, laptop, and probably your smart fridge if it has a browser. Responsive design is not optional in 2026.
+
+**Secure**: Your API keys are safe. We moved everything to server-side so nobody can steal credentials from the browser. Security matters, even for hobby projects.
 
 ## The Tech Stack (For the Nerds)
 
@@ -44,6 +46,7 @@ Built with modern web technologies that are probably outdated by the time you re
 
 - Node.js 18 or higher (if you're still on Node 14, it's time to upgrade)
 - npm (comes with Node.js, so you're probably good)
+- A Groq API key (for the AI translation feature)
 - A computer (obviously)
 - Internet connection (to download dependencies and hit the backend APIs)
 
@@ -56,6 +59,22 @@ git clone https://github.com/mohid-mughal/iqrah-urdu-tts.git
 cd iqrah-urdu-tts
 npm install
 ```
+
+### Environment Setup
+
+Create a `.env.local` file in the root directory:
+
+```env
+# Server-side only - NOT exposed to browser (this is important for security)
+GROQ_API_KEY=your_groq_api_key_here
+
+# Client-side - safe to expose (just rate limit numbers)
+NEXT_PUBLIC_RATE_LIMIT_PER_MINUTE=5
+NEXT_PUBLIC_RATE_LIMIT_PER_HOUR=24
+NEXT_PUBLIC_RATE_LIMIT_PER_DAY=60
+```
+
+Notice the `GROQ_API_KEY` doesn't have `NEXT_PUBLIC_` prefix. That's intentional. It keeps the API key on the server where it belongs, not in the browser where anyone can steal it.
 
 ### Running Locally
 
@@ -161,6 +180,7 @@ This app is configured for Vercel deployment because Vercel and Next.js go toget
 - A GitHub account (you probably have one)
 - A Vercel account (free tier works fine)
 - Your code pushed to GitHub
+- A Groq API key (get one from groq.com)
 
 ### The Easy Way (Recommended)
 
@@ -193,11 +213,32 @@ vercel --prod
 
 Follow the prompts, and you're done.
 
-### Environment Variables
+### Environment Variables (Important)
 
-Good news: This app doesn't need any environment variables for basic functionality. The backend API endpoints are configured in the code, and Vercel Analytics works automatically when deployed to Vercel.
+After your first deployment, you need to add environment variables in Vercel:
 
-If you want to add environment variables later (for API keys, feature flags, etc.), you can do it in the Vercel dashboard under Project Settings > Environment Variables.
+1. Go to your project in Vercel Dashboard
+2. Navigate to Settings > Environment Variables
+3. Add these variables:
+
+**GROQ_API_KEY** (Required for AI translation)
+- Value: Your Groq API key
+- Environments: Production, Preview, Development
+- Important: Do NOT add `NEXT_PUBLIC_` prefix. This keeps it server-side only for security.
+
+**NEXT_PUBLIC_RATE_LIMIT_PER_MINUTE**
+- Value: `5`
+- Environments: All
+
+**NEXT_PUBLIC_RATE_LIMIT_PER_HOUR**
+- Value: `24`
+- Environments: All
+
+**NEXT_PUBLIC_RATE_LIMIT_PER_DAY**
+- Value: `60`
+- Environments: All
+
+After adding environment variables, Vercel will automatically redeploy. The translation feature will work once the redeployment completes.
 
 ### Automatic Deployments
 
@@ -215,10 +256,9 @@ After deployment, check that:
 - The app loads (seems obvious, but you'd be surprised)
 - Both model tabs work
 - Text input and transliteration function correctly
+- AI translation works (this needs the GROQ_API_KEY environment variable)
 - Sample sentences populate the input field
 - Audio synthesis works with both models
-- Voice cloning with file upload works
-- Voice cloning with microphone recording works (requires HTTPS, which Vercel provides)
 - Audio playback controls work
 - The design looks good on mobile and desktop
 - Analytics are tracking (check Vercel Analytics dashboard)
@@ -229,17 +269,21 @@ After deployment, check that:
 
 **App doesn't load**: Check the browser console for errors. Probably a missing environment variable or API endpoint issue.
 
-**Microphone doesn't work**: Make sure you're on HTTPS (Vercel provides this automatically). Browsers block microphone access on HTTP.
+**Translation says "not configured"**: You forgot to add the `GROQ_API_KEY` environment variable in Vercel. Go add it and wait for the automatic redeployment.
 
 **Analytics not showing**: Give it a few minutes. Analytics data isn't instant.
 
 ## Credits and Acknowledgments
 
-This project was built by two NUST students who spent way too much time training models and debugging React components:
+This project was built by a team of NUST students who spent way too much time training models and debugging React components:
 
 **M. Mohid Mughal**: Model training and frontend development. The person who made the interface look good and work smoothly. Also responsible for the Pakistan-themed design that makes you feel patriotic while using a TTS app.
 
 **Ahmed Javed**: Extreme model training and backend development. The person who trained 120,000 samples and learned that word-based phonemization isn't the way to go. Also built the backend APIs that actually do the heavy lifting.
+
+**Abdul Rehman**: Contributing team member who helped make this project possible.
+
+**Daniyal Munib**: Contributing team member who helped make this project possible.
 
 ### Backend APIs
 
@@ -249,6 +293,7 @@ Both models are hosted on Hugging Face Spaces, which generously provides free ho
 
 - National University of Science and Technology (NUST) for the education and the late-night lab access
 - The Urdu language for being beautiful and complex enough to make this project interesting
+- Groq AI for providing the translation API
 - Vercel for free hosting and analytics
 - Next.js team for making React development less painful
 - Everyone who tested this and provided feedback
@@ -275,10 +320,12 @@ This project started as a university assignment and turned into something actual
 
 Remember: The phoneme model doesn't work great, and that's okay. Not every experiment succeeds, and documenting failures is just as important as celebrating successes. That's science, that's engineering, and that's life.
 
+The AI translation feature uses server-side API routes to keep your API keys secure. We learned this lesson after almost exposing credentials to the browser. Security matters, even in hobby projects.
+
 Now go forth and make computers speak Urdu.
 
 ---
 
-Built with ❤️ (and lots of chai) at NUST, Pakistan
+Built with love (and lots of chai) at NUST, Pakistan
 
 Version 1.0.0 | Last Updated: April 2026
