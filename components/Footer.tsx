@@ -71,6 +71,16 @@ export default function Footer() {
                   </a>
                 </div>
               </div>
+
+              {/* Abdul Rehman */}
+              <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-2 sm:space-y-0 sm:space-x-3">
+                <span className="text-sm sm:text-base font-medium text-white min-w-[120px]">Abdul Rehman</span>
+              </div>
+
+              {/* Daniyal Munib */}
+              <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-2 sm:space-y-0 sm:space-x-3">
+                <span className="text-sm sm:text-base font-medium text-white min-w-[120px]">Daniyal Munib</span>
+              </div>
             </div>
           </div>
 
