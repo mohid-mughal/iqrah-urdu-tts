@@ -132,9 +132,9 @@ export default function TextInputWithTranslation({
       if (isInEditMode && hasTranslated) {
         return 'Edit your Urdu text (type in English/Roman to add more)...';
       }
-      return 'Type in Roman Urdu (e.g., "mujhe khana pasand hai") then click "Translate to Urdu via AI"...';
+      return 'Type in Roman Urdu (e.g., "mujhe khana pasand hai") then click "Translate to Urdu via AI"... ';
     } else {
-      return 'Type in English/Roman Urdu - automatic character-based conversion to Urdu (InPage style)...';
+      return 'Type in English/Roman Urdu - automatic character-based conversion to Urdu (InPage style)... ';
     }
   };
 
@@ -266,6 +266,7 @@ export default function TextInputWithTranslation({
             resize-y
             urdu-text
             touch-manipulation
+            placeholder:text-left placeholder:direction-ltr
           `}
           dir={getTextDirection}
           lang={getTextDirection === 'rtl' ? 'ur' : 'en'}

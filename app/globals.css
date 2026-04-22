@@ -60,3 +60,16 @@ body::after {
     text-wrap: balance;
   }
 }
+
+/* Fix for placeholder text direction in RTL textareas */
+textarea::placeholder,
+input::placeholder {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: embed;
+}
+
+/* Ensure Urdu text renders properly */
+.urdu-text {
+  unicode-bidi: plaintext;
+}
