@@ -67,6 +67,7 @@ input::placeholder {
   direction: ltr !important;
   text-align: left !important;
   unicode-bidi: isolate !important;
+  writing-mode: horizontal-tb !important;
 }
 
 /* Ensure Urdu text renders properly */
@@ -79,4 +80,50 @@ textarea[dir="rtl"]::placeholder {
   direction: ltr !important;
   text-align: left !important;
   unicode-bidi: isolate !important;
+  writing-mode: horizontal-tb !important;
+}
+
+/* WebKit-specific placeholder fixes for mobile Safari/Chrome */
+textarea::-webkit-input-placeholder {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: isolate !important;
+  writing-mode: horizontal-tb !important;
+}
+
+textarea[dir="rtl"]::-webkit-input-placeholder {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: isolate !important;
+  writing-mode: horizontal-tb !important;
+}
+
+/* Mozilla-specific placeholder fixes */
+textarea::-moz-placeholder {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: isolate !important;
+  writing-mode: horizontal-tb !important;
+}
+
+textarea[dir="rtl"]::-moz-placeholder {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: isolate !important;
+  writing-mode: horizontal-tb !important;
+}
+
+/* Microsoft Edge placeholder fixes */
+textarea::-ms-input-placeholder {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: isolate !important;
+  writing-mode: horizontal-tb !important;
+}
+
+textarea[dir="rtl"]::-ms-input-placeholder {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: isolate !important;
+  writing-mode: horizontal-tb !important;
 }
