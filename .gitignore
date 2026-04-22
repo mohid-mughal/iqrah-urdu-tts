@@ -38,3 +38,6 @@ next-env.d.ts
 # IDE and tooling
 .kiro/
 .vscode/
+
+# LinkedIn posts (not for public repo)
+linkedin-posts/
