@@ -51,8 +51,6 @@ body::after {
 /* Urdu text styling */
 .urdu-text {
   font-family: var(--font-noto-nastaliq), serif;
-  direction: rtl;
-  text-align: right;
 }
 
 @layer utilities {
@@ -61,69 +59,34 @@ body::after {
   }
 }
 
-/* Fix for placeholder text direction in RTL textareas */
+/* Ensure placeholders always display LTR */
 textarea::placeholder,
 input::placeholder {
   direction: ltr !important;
   text-align: left !important;
-  unicode-bidi: isolate !important;
-  writing-mode: horizontal-tb !important;
+  unicode-bidi: bidi-override !important;
 }
 
-/* Ensure Urdu text renders properly */
-.urdu-text {
-  unicode-bidi: plaintext;
-}
-
-/* Additional specificity for textarea placeholders */
-textarea[dir="rtl"]::placeholder {
+/* WebKit-specific (Safari, Chrome on mobile) */
+textarea::-webkit-input-placeholder,
+input::-webkit-input-placeholder {
   direction: ltr !important;
   text-align: left !important;
-  unicode-bidi: isolate !important;
-  writing-mode: horizontal-tb !important;
+  unicode-bidi: bidi-override !important;
 }
 
-/* WebKit-specific placeholder fixes for mobile Safari/Chrome */
-textarea::-webkit-input-placeholder {
+/* Mozilla-specific (Firefox) */
+textarea::-moz-placeholder,
+input::-moz-placeholder {
   direction: ltr !important;
   text-align: left !important;
-  unicode-bidi: isolate !important;
-  writing-mode: horizontal-tb !important;
+  unicode-bidi: bidi-override !important;
 }
 
-textarea[dir="rtl"]::-webkit-input-placeholder {
+/* Microsoft Edge */
+textarea::-ms-input-placeholder,
+input::-ms-input-placeholder {
   direction: ltr !important;
   text-align: left !important;
-  unicode-bidi: isolate !important;
-  writing-mode: horizontal-tb !important;
-}
-
-/* Mozilla-specific placeholder fixes */
-textarea::-moz-placeholder {
-  direction: ltr !important;
-  text-align: left !important;
-  unicode-bidi: isolate !important;
-  writing-mode: horizontal-tb !important;
-}
-
-textarea[dir="rtl"]::-moz-placeholder {
-  direction: ltr !important;
-  text-align: left !important;
-  unicode-bidi: isolate !important;
-  writing-mode: horizontal-tb !important;
-}
-
-/* Microsoft Edge placeholder fixes */
-textarea::-ms-input-placeholder {
-  direction: ltr !important;
-  text-align: left !important;
-  unicode-bidi: isolate !important;
-  writing-mode: horizontal-tb !important;
-}
-
-textarea[dir="rtl"]::-ms-input-placeholder {
-  direction: ltr !important;
-  text-align: left !important;
-  unicode-bidi: isolate !important;
-  writing-mode: horizontal-tb !important;
+  unicode-bidi: bidi-override !important;
 }

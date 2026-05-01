@@ -253,9 +253,6 @@ export default function TextInputWithTranslation({
           onChange={handleChange}
           disabled={disabled || isTranslating}
           placeholder={getPlaceholder()}
-          style={{
-            textAlign: getTextDirection === 'rtl' ? 'right' : 'left',
-          }}
           className={`
             w-full min-h-[150px] sm:min-h-[200px] p-3 sm:p-4 
             font-urdu text-base sm:text-lg
@@ -264,11 +261,13 @@ export default function TextInputWithTranslation({
             disabled:bg-gray-100 disabled:cursor-not-allowed
             transition-all duration-200
             resize-y
-            urdu-text
             touch-manipulation
-            [&::placeholder]:!text-left [&::placeholder]:!direction-ltr
           `}
-          dir={getTextDirection}
+          style={{
+            direction: 'ltr',
+            textAlign: getTextDirection === 'rtl' ? 'right' : 'left',
+            unicodeBidi: 'plaintext',
+          }}
           lang={getTextDirection === 'rtl' ? 'ur' : 'en'}
           aria-label="Text input"
           aria-describedby="text-input-help"
